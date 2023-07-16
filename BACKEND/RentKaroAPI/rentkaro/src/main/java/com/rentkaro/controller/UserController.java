@@ -13,31 +13,34 @@ import com.rentkaro.dto.UserSignUpDTO;
 import com.rentkaro.pojos.User;
 import com.rentkaro.service.UserService;
 
-@RestController @RequestMapping("/user")
+@RestController
+@RequestMapping("/user")
 public class UserController {
-	
+
 	@Autowired
 	public UserService userService;
-	
+
 	public UserController() {
 		System.out.println("controller bean created");
 	}
-	
+
 	@GetMapping
-	public String test()
-	{
+	public String test() {
 		return "hi this is demo test to check controller ";
 	}
-	
+
 	@PostMapping
-	public User addUser(@RequestBody UserSignUpDTO user )
-	{
-		
+	public User addUser(@RequestBody UserSignUpDTO user) {
+
 		return userService.addUser(user);
 	}
+
 	
-	/*
-	 * @GetMapping public List<User> getUsers() { return userService.getUsers(); }
-	 */
-	
+	  @GetMapping("/all")
+	  public List<User> getUsers() 
+	  { 
+		  return userService.getUsers(); 
+	  }
+	 
+
 }
