@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -27,11 +28,7 @@ public class WishList extends UserEntity {
 	@OneToOne
 	@JoinColumn(name = "userId")
 	private User user;
-	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable( name = "product_wishlist",
-			 joinColumns = @JoinColumn(name = "Product_ID"),
-			 inverseJoinColumns = @JoinColumn(name = "WishList_ID")
-			 )
+	@ManyToMany(mappedBy = "wishList",fetch = FetchType.LAZY)
 	private Set<Product> productList= new HashSet<Product>();
 	
 	

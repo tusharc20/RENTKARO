@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -47,7 +48,11 @@ public class Product extends ProductEntity {
 	private User renter;
 	@ManyToOne @JoinColumn(name = "category")
 	private Category category;
-	@ManyToMany(mappedBy = "productList")
+	@ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+	@JoinTable( name = "product_wishlist",
+			 joinColumns = @JoinColumn(name = "Product_ID",referencedColumnName = "productId"),
+			 inverseJoinColumns = @JoinColumn(name = "WishList_ID", referencedColumnName = "Id")
+			 )
 	private Set<WishList> wishList= new HashSet<WishList>();
 }
 
