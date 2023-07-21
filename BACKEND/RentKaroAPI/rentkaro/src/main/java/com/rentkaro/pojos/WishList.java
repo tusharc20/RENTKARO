@@ -1,20 +1,14 @@
 package com.rentkaro.pojos;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.MapsId;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -34,11 +28,7 @@ public class WishList extends UserEntity {
 	@OneToOne
 	@JoinColumn(name = "userId")
 	private User user;
-	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable( name = "product_wishlist",
-			 joinColumns = @JoinColumn(name = "Product_ID"),
-			 inverseJoinColumns = @JoinColumn(name = "WishList_ID")
-			 )
+	@ManyToMany(mappedBy = "wishList",fetch = FetchType.LAZY)
 	private Set<Product> productList= new HashSet<Product>();
 	
 	

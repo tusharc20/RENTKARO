@@ -48,7 +48,7 @@ public class User extends UserEntity{
 	
 	@OneToOne(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true) @JoinColumn(name = "cart")
 	private WishList cart;
-	@OneToMany
+	@OneToMany @JoinColumn(name = "orderList")
 	List<OrderHistory> orderList = new ArrayList<OrderHistory>();
 	@Column(name = "rental_date",nullable = true)
 	private LocalDate rentalDate;
