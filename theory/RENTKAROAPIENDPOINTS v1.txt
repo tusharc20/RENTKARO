@@ -1,0 +1,82 @@
+
+							API END POINTS (RENTKARO)
+prashant	
+		
+/login	-- authenticate //done
+/signup	-- authenticate //done
+/forgotpassword  -- how to validate user with that email  //done changepass
+/logout --- //done
+/feedbacktosite  -- optional
+
+
+kalpesh
+
+/home-page -> fetch all product list with details //done
+/home-page/category   //done
+/home-page/searchresult -> fetch all product with matching product name or category
+/home-page ---> sorting ----> ( price, addedbydate , rating(default search) (maybe)  ,  / filters(isavailable, price range) ) 
+/home-page /chat-box		 (dialogue-flow is api for chat ) 
+  
+
+shreyansh
+
+/add-product ---> 	add new product to my product to sell list  
+			(POST) //done
+			
+/product-detail/product-id
+
+
+
+/my-cart --->   this is  a list which user wants to buy not a basket, cart which user wants to rent all at 
+		once always on navbar with icon  
+/rent
+
+
+
+/* PAYMENT API UNDER CONSTRUCTION */
+
+
+
+
+prajwal & tushar
+
+/profile				--> 	highlight all the details about user details //done
+/profile/edit				--> 	profile editing update //done
+/profile/my-orderlist			--> 	bought product orderlist 
+/profile/my-orderlist/return		--> 	return product 
+/profile/my-products			---> 	sellers product list
+/profile/my-products/update		---> 	update modify the existing product of mine
+/profile/my-products/delete		--> 	delete my product from the website
+/profile/deleteaccount			--> 	delete my account //done
+
+/report -----> PENDING
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
