@@ -6,4 +6,5 @@ import com.rentkaro.pojos.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+	
 }
