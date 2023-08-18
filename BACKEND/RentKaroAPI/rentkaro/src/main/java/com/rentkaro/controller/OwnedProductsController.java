@@ -6,10 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rentkaro.dto.ApiResponse;
+import com.rentkaro.dto.ProductDTO;
 import com.rentkaro.service.ProfileService;
 
 @RestController @RequestMapping("/ownedproducts")
@@ -28,9 +30,9 @@ public class OwnedProductsController {
 	}
 	
 	@PutMapping("/ownedproducts/{id}")
-	public ResponseEntity<?> updateProductFromOwnedProducts(@PathVariable Long id) {
+	public ResponseEntity<?> updateProductFromOwnedProducts(@PathVariable Long id, @RequestBody ProductDTO productDto) {
 		try {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(profileService.getOwnedProducts(id));
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(profileService.updateOwnedProducts(id,productDto));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}

@@ -1,21 +1,22 @@
 package com.rentkaro.pojos;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.rentkaro.dto.ProductDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,7 +47,8 @@ public class Product extends ProductEntity {
 	private User owner;
 	@OneToOne @JoinColumn(name = "renter")
 	private User renter;
-	@ManyToOne @JoinColumn(name = "category")
+	@Enumerated(EnumType.STRING)
+	@Column(length = 30)
 	private Category category;
 	@ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
 	@JoinTable( name = "product_wishlist",
@@ -54,6 +56,7 @@ public class Product extends ProductEntity {
 			 inverseJoinColumns = @JoinColumn(name = "WishList_ID", referencedColumnName = "Id")
 			 )
 	private Set<WishList> wishList= new HashSet<WishList>();
+		
 }
 
 

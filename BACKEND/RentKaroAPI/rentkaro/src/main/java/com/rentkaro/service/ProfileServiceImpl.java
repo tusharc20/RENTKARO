@@ -1,14 +1,16 @@
 package com.rentkaro.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rentkaro.dto.OrderHistoryDTO;
+import com.rentkaro.dto.ProductDTO;
 import com.rentkaro.dto.ProfileDto;
-import com.rentkaro.pojos.OrderHistory;
 import com.rentkaro.pojos.Product;
 import com.rentkaro.pojos.User;
 import com.rentkaro.repository.ProductRepository;
@@ -19,7 +21,7 @@ import com.rentkaro.repository.UserRepository;
 public class ProfileServiceImpl implements ProfileService {
 
 	@Autowired
-	private UserRepository UserRepo;
+	private UserRepository userRepo;
 	@Autowired
 	private ProductRepository productRepo;
 
@@ -30,7 +32,7 @@ public class ProfileServiceImpl implements ProfileService {
 	public String deleteAccount(Long id) {
 		if (id != null) {
 
-			UserRepo.deleteById(id);
+			userRepo.deleteById(id);
 			return "Account Deleted.";
 		}
 		return "Account Not Deleted.";
@@ -39,7 +41,7 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public ProfileDto myProfile(Long id) {
 
-		User user = UserRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
+		User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
 		ProfileDto profile = modelMapper.map(user, ProfileDto.class);
 		return profile;
 	}
@@ -49,7 +51,7 @@ public class ProfileServiceImpl implements ProfileService {
 
 		try {
 			System.err.println("hgggghghghgghg" + profiledto.getId());
-			User user = UserRepo.findById(profiledto.getId()).orElseThrow(() -> new RuntimeException("Invalid Id."));
+			User user = userRepo.findById(profiledto.getId()).orElseThrow(() -> new RuntimeException("Invalid Id."));
 			System.err.println("hgggghghghgghg");
 			user.setFirstName(profiledto.getFirstName());
 			user.setLastName(profiledto.getLastName());
@@ -61,69 +63,79 @@ public class ProfileServiceImpl implements ProfileService {
 			user.getUserAddress().setCountry(profiledto.getUserAddress().getCountry());
 			user.getUserAddress().setPincode(profiledto.getUserAddress().getPincode());
 			user.getUserAddress().setState(profiledto.getUserAddress().getState());
-			UserRepo.save(user);
+			userRepo.save(user);
 			return "Profile Updated";
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
-//		return "Profile Updation failed.";
 	}
 
 	@Override
-	public List<OrderHistory> getOrderList(Long id) {
+	public List<OrderHistoryDTO> getOrderList(Long id) {
 		try {
-			User user = UserRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
+			User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
 
 			System.err.println("hdhhdsj");
-			List<OrderHistory> orders = user.getOrderList();
-//			List<OrderHistory> orders = UserRepo.findByIdWithOrderList(id)
-//					.orElseThrow(() -> new RuntimeException("Invalid Id."));
-//			;
-			return orders;
+//			List<OrderHistory> orders = user.getOrderList();
+			User persistentUser= userRepo.findByIdWithOrderList(id)
+					.orElseThrow(() -> new RuntimeException("Invalid Id."));
+			;
+			return persistentUser.getOrderList().stream().map(p -> modelMapper.map(p, OrderHistoryDTO.class))
+					.collect(Collectors.toList());
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
 
 	@Override
-	public List<Product> getOwnedProducts(Long id) {
+	public List<ProductDTO> getOwnedProducts(Long id) {
 		try {
-			User user = UserRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
+			User user = userRepo.findByIdWithOwnedProductList(id)
+					.orElseThrow(() -> new RuntimeException("Invalid Id."));
 
-			List<Product> products = user.getOwnedProductList();
-			System.err.println(products);
-			return products;
+			return user.getOwnedProductList().stream().map(p -> modelMapper.map(p, ProductDTO.class))
+					.collect(Collectors.toList());
 		} catch (Exception e) {
+
 			throw new RuntimeException(e.getMessage());
 		}
 	}
 
 	@Override
-	public List<Product> updateOwnedProducts(Long id) {
+	public String updateOwnedProducts(Long ownerId, ProductDTO productDto) {
 		try {
-			User user = UserRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
+			User user = userRepo.findById(ownerId).orElseThrow(() -> new RuntimeException("Invalid Id."));
+			if (user.getOwnedProductList().contains(productDto)) {
+				System.err.println("dtddttd");
+				Product persistentProduct = productRepo.findById(productDto.getProductId())
+						.orElseThrow(() -> new RuntimeException("Invalid Id."));
+				persistentProduct.setProductName(productDto.getProductName());
+				persistentProduct.setProductDescription(productDto.getProductDescription());
+				persistentProduct.setRentalPrice(productDto.getRentalPrice());
+				persistentProduct.setIsAvailable(productDto.getIsAvailable());
+				persistentProduct.setCategory(productDto.getCategory());
+				productRepo.save(persistentProduct);
+			}
 
-			List<Product> products = user.getOwnedProductList();
-			return products;
+//			List<Product> products = user.getOwnedProductList();
+			return "Updation failed.";
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
-	
+
 	@Override
 	public String deleteProductFromOwnedProducts(Long id, Long productId) {
 		try {
-			User user = UserRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
+			User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
 
 //			List<Product> products = user.getOwnedProductList();
 			user.getOwnedProductList().removeIf((i) -> i.getProductId().equals(productId));
-			UserRepo.save(user);
+			userRepo.save(user);
 			return "Product Removed.";
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
-
-	
 
 }

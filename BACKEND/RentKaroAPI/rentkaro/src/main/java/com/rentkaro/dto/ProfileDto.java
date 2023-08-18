@@ -1,19 +1,6 @@
 package com.rentkaro.dto;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
-import com.rentkaro.pojos.OrderHistory;
-import com.rentkaro.pojos.Product;
 import com.rentkaro.pojos.UserAddress;
-import com.rentkaro.pojos.WishList;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
