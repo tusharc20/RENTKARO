@@ -56,7 +56,9 @@ public class Product extends ProductEntity {
 			 inverseJoinColumns = @JoinColumn(name = "WishList_ID", referencedColumnName = "Id")
 			 )
 	private Set<WishList> wishList= new HashSet<WishList>();
-		
+	
+	
+	
 }
 
 

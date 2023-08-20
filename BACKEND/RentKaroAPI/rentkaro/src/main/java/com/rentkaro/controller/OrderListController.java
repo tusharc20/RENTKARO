@@ -26,20 +26,5 @@ public class OrderListController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
 	}
-	
-	/*
-	 * @GetMapping("/ownedproducts/{id}") public ResponseEntity<?>
-	 * getOwnedProducts(@PathVariable Long id) { try { return
-	 * ResponseEntity.status(HttpStatus.ACCEPTED).body(profileService.
-	 * getOwnedProducts(id)); } catch (Exception e) { return
-	 * ResponseEntity.status(HttpStatus.NOT_FOUND).body(new
-	 * ApiResponse(e.getMessage())); } }
-	 * 
-	 * @GetMapping("/ownedproducts/{id}") public ResponseEntity<?>
-	 * updateProductFromOwnedProducts(@PathVariable Long id) { try { return
-	 * ResponseEntity.status(HttpStatus.ACCEPTED).body(profileService.
-	 * getOwnedProducts(id)); } catch (Exception e) { return
-	 * ResponseEntity.status(HttpStatus.NOT_FOUND).body(new
-	 * ApiResponse(e.getMessage())); } }
-	 */
+
 }

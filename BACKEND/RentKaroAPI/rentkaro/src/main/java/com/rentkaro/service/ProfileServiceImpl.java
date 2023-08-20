@@ -22,6 +22,7 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Autowired
 	private UserRepository userRepo;
+
 	@Autowired
 	private ProductRepository productRepo;
 
@@ -31,7 +32,6 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public String deleteAccount(Long id) {
 		if (id != null) {
-
 			userRepo.deleteById(id);
 			return "Account Deleted.";
 		}
@@ -48,11 +48,9 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	public String editProfile(ProfileDto profiledto) {
-
 		try {
-			System.err.println("hgggghghghgghg" + profiledto.getId());
 			User user = userRepo.findById(profiledto.getId()).orElseThrow(() -> new RuntimeException("Invalid Id."));
-			System.err.println("hgggghghghgghg");
+
 			user.setFirstName(profiledto.getFirstName());
 			user.setLastName(profiledto.getLastName());
 			user.setUserEmail(profiledto.getUserEmail());
@@ -64,6 +62,7 @@ public class ProfileServiceImpl implements ProfileService {
 			user.getUserAddress().setPincode(profiledto.getUserAddress().getPincode());
 			user.getUserAddress().setState(profiledto.getUserAddress().getState());
 			userRepo.save(user);
+
 			return "Profile Updated";
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
@@ -73,13 +72,11 @@ public class ProfileServiceImpl implements ProfileService {
 	@Override
 	public List<OrderHistoryDTO> getOrderList(Long id) {
 		try {
-			User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
-
-			System.err.println("hdhhdsj");
-//			List<OrderHistory> orders = user.getOrderList();
-			User persistentUser= userRepo.findByIdWithOrderList(id)
+			// This user is fetched to check whether it is persistent or not.
+			User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("User does not exist."));
+			User persistentUser = userRepo.findByIdWithOrderList(id)
 					.orElseThrow(() -> new RuntimeException("Invalid Id."));
-			;
+
 			return persistentUser.getOrderList().stream().map(p -> modelMapper.map(p, OrderHistoryDTO.class))
 					.collect(Collectors.toList());
 		} catch (Exception e) {
@@ -105,21 +102,25 @@ public class ProfileServiceImpl implements ProfileService {
 	public String updateOwnedProducts(Long ownerId, ProductDTO productDto) {
 		try {
 			User user = userRepo.findById(ownerId).orElseThrow(() -> new RuntimeException("Invalid Id."));
-			if (user.getOwnedProductList().contains(productDto)) {
-				System.err.println("dtddttd");
+			boolean doesUserHasProduct = user.getOwnedProductList().stream()
+					.anyMatch(p -> p.getProductId().equals(productDto.getProductId()));
+			if (doesUserHasProduct) {
 				Product persistentProduct = productRepo.findById(productDto.getProductId())
 						.orElseThrow(() -> new RuntimeException("Invalid Id."));
+
 				persistentProduct.setProductName(productDto.getProductName());
 				persistentProduct.setProductDescription(productDto.getProductDescription());
 				persistentProduct.setRentalPrice(productDto.getRentalPrice());
 				persistentProduct.setIsAvailable(productDto.getIsAvailable());
 				persistentProduct.setCategory(productDto.getCategory());
-				productRepo.save(persistentProduct);
-			}
 
-//			List<Product> products = user.getOwnedProductList();
+				productRepo.save(persistentProduct);
+
+				return "Updation succeed.";
+			}
 			return "Updation failed.";
 		} catch (Exception e) {
+
 			throw new RuntimeException(e.getMessage());
 		}
 	}
@@ -128,11 +129,19 @@ public class ProfileServiceImpl implements ProfileService {
 	public String deleteProductFromOwnedProducts(Long id, Long productId) {
 		try {
 			User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
+//			boolean doesUserHasProduct = user.getOwnedProductList().stream()
+//					.anyMatch(p -> p.getProductId().equals(productId));
+//			if (doesUserHasProduct) {
+//				user.getOwnedProductList().removeIf((i) -> i.getProductId().equals(productId));
+			Product persistentProduct = user.getOwnedProductList().stream().filter(p->p.getProductId().equals(productId))
+			.findFirst().orElseThrow(()-> new RuntimeException("Invalid Product Id."));
+			
+			user.removeProductFromOwnedProductList(persistentProduct);
+				userRepo.save(user);
 
-//			List<Product> products = user.getOwnedProductList();
-			user.getOwnedProductList().removeIf((i) -> i.getProductId().equals(productId));
-			userRepo.save(user);
-			return "Product Removed.";
+				return "product deleted.";
+//			}
+//			return "Product Not Found";
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}

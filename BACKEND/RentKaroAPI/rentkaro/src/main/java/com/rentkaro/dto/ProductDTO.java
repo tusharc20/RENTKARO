@@ -1,10 +1,8 @@
 package com.rentkaro.dto;
 
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.rentkaro.pojos.Category;
-import com.rentkaro.pojos.Product;
 import com.rentkaro.pojos.Rating;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +19,8 @@ public class ProductDTO {
 	private Long productId;
 	private String productName;
 	private String productDescription;
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = Access.READ_ONLY)
 	private Rating rating;
 	private Double rentalPrice;
 	private Boolean isAvailable;
@@ -33,6 +32,5 @@ public class ProductDTO {
 	public Long getProductId() {
 		return productId;
 	}
-
 
 }
