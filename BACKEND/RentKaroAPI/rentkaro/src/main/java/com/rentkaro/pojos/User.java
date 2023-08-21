@@ -70,6 +70,7 @@ public class User extends UserEntity {
 
 	public void removeProductFromOwnedProductList(Product persistentProduct) {
 		this.getOwnedProductList().remove(persistentProduct);
+		this.setRentedProduct(null);
 		persistentProduct.setOwner(null);
 		persistentProduct.setIsAvailable(false);
 		persistentProduct.setRating(null);

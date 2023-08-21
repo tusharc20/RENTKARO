@@ -43,4 +43,5 @@ public class OrderHistory  {
 	@Column(name = "total_amount")
 	private Double amount;  //no. of days to rent * product price rent/ day
 	
+	
 }
