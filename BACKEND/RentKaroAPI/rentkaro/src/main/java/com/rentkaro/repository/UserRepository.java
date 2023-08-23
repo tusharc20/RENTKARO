@@ -15,4 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.orderList WHERE u.id = :userId")
     Optional<User> findByIdWithOrderList(@Param("userId") Long userId);
 	
+	User findByUserEmail(String email);
+	
+	User findByUserMobileNo(String mobileNo);
+	
 }

@@ -2,8 +2,12 @@ package com.rentkaro.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +34,14 @@ public class UserController {
 	}
 
 	@PostMapping
-	public User addUser(@RequestBody UserSignUpDTO user) {
+	public ResponseEntity<?> addUser(@RequestBody @Valid UserSignUpDTO user) {
 
 		return userService.addUser(user);
+	}
+	
+	@GetMapping("/authenticate/{email}/{password}")
+	public ResponseEntity<?> authenticateUser(@PathVariable String email, @PathVariable String password){
+		return userService.validateUser(email,password);
 	}
 
 	

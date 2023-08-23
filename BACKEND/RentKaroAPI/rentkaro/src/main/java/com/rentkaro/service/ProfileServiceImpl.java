@@ -127,24 +127,39 @@ public class ProfileServiceImpl implements ProfileService {
 
 	@Override
 	public String deleteProductFromOwnedProducts(Long id, Long productId) {
-		try {
-			User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
-//			boolean doesUserHasProduct = user.getOwnedProductList().stream()
-//					.anyMatch(p -> p.getProductId().equals(productId));
-//			if (doesUserHasProduct) {
-//				user.getOwnedProductList().removeIf((i) -> i.getProductId().equals(productId));
-			Product persistentProduct = user.getOwnedProductList().stream().filter(p->p.getProductId().equals(productId))
-			.findFirst().orElseThrow(()-> new RuntimeException("Invalid Product Id."));
-			
-			user.removeProductFromOwnedProductList(persistentProduct);
-				userRepo.save(user);
-
-				return "product deleted.";
-//			}
-//			return "Product Not Found";
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
+//		try {
+//			User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
+////			boolean doesUserHasProduct = user.getOwnedProductList().stream()
+////					.anyMatch(p -> p.getProductId().equals(productId));
+////			if (doesUserHasProduct) {
+////				user.getOwnedProductList().removeIf((i) -> i.getProductId().equals(productId));
+//			Product persistentProduct = user.getOwnedProductList().stream().filter(p->p.getProductId().equals(productId))
+//			.findFirst().orElseThrow(()-> new RuntimeException("Invalid Product Id."));
+//			
+//			user.removeProductFromOwnedProductList(persistentProduct);
+//				userRepo.save(user);
+//
+//				return "product deleted.";
+////			}
+////			return "Product Not Found";
+//		} catch (Exception e) {
+//			throw new RuntimeException(e.getMessage());
+//		}
+		
+		User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Invalid Id."));
+		Product product = null;
+		for(Product p : user.getOwnedProductList()) {
+			if(p.getProductId().equals(productId)) {
+				product = p;
+				
+			}
 		}
+		if(product==null) {
+			return "invalid product id";
+		}
+		user.removeProductFromOwnedProductList(product);
+		
+		return "product removed successfully";
 	}
 
 }

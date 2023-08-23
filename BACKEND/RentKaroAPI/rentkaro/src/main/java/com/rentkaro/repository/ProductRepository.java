@@ -6,5 +6,6 @@ import com.rentkaro.pojos.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long>{
 
+	
 		
 }
