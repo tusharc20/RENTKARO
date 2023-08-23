@@ -35,15 +35,20 @@ public class Product extends ProductEntity {
 	private String productName;
 	@Column(name = "product_description", length = 150)
 	private String productDescription;
-	// @Column(name = "rating_id", nullable = true)
 	@OneToOne
 	@JoinColumn(name = "rating")
 	private Rating rating;
-	@Column(name = "image_path")
-	private String imagePath;
+	@Column(name = "img_path_1")
+	private String imgPath1;
+	@Column(name = "img_path_2")
+	private String imgPath2;
+	@Column(name = "product_features")
+	private String productFeatures;
 	// price is per day rent of product
 	@Column(name = "rental_price")
 	private Double rentalPrice;
+//	@Column(name = "deposite_token")
+//	private Double deposite;
 	@Column(name = "is_available")
 	private Boolean isAvailable;
 	@ManyToOne
@@ -59,4 +64,13 @@ public class Product extends ProductEntity {
 	@JoinTable(name = "product_wishlist", joinColumns = @JoinColumn(name = "Product_ID", referencedColumnName = "productId"), inverseJoinColumns = @JoinColumn(name = "WishList_ID", referencedColumnName = "Id"))
 	private Set<WishList> wishList = new HashSet<WishList>();
 
+	
+	public void addUser(User obj) {
+		this.owner = obj;
+	}
+
+	public void removeUser() {
+		this.owner = null;
+	}
+	
 }

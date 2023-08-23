@@ -27,7 +27,6 @@ public class Rating {
 	private Long id;
 	@OneToOne @JoinColumn(name = "product")
 	private Product product;
-	//pending under constructor for shreyansh
 	@ManyToOne @JoinColumn(name = "renter")
 	private User renter;
 	private Float rating;

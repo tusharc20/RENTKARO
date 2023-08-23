@@ -1,5 +1,7 @@
 package com.rentkaro.dto;
 
+import javax.persistence.Column;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.rentkaro.pojos.Category;
@@ -19,18 +21,12 @@ public class ProductDTO {
 	private Long productId;
 	private String productName;
 	private String productDescription;
-//	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	@JsonProperty(access = Access.READ_ONLY)
+	private String productFeatures;
+//	@JsonProperty(access = Access.READ_ONLY)
 	private Rating rating;
 	private Double rentalPrice;
 	private Boolean isAvailable;
-//	private String ownerName;
-//	private User owner;
-//	private User renter;
+	private String imgPath1;
+	private String imgPath2;
 	private Category category;
-
-	public Long getProductId() {
-		return productId;
-	}
-
 }

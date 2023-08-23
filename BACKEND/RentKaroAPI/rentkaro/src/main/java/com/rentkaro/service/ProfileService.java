@@ -5,6 +5,7 @@ import java.util.List;
 import com.rentkaro.dto.OrderHistoryDTO;
 import com.rentkaro.dto.ProductDTO;
 import com.rentkaro.dto.ProfileDto;
+import com.rentkaro.dto.UpdateProductDTO;
 
 public interface ProfileService {
 	
@@ -13,6 +14,6 @@ public interface ProfileService {
 	String editProfile(ProfileDto profiledto);
 	List<OrderHistoryDTO> getOrderList(Long id);
 	List<ProductDTO> getOwnedProducts(Long id);
-	String deleteProductFromOwnedProducts(Long id, Long productId);
-	String updateOwnedProducts(Long ownerId,ProductDTO productDto);
+//	String deleteProductFromOwnedProducts(Long id, Long productId);
+	String updateOwnedProducts(Long ownerId,UpdateProductDTO productDto);
 }

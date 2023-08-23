@@ -4,5 +4,5 @@ import lombok.Getter;
 
 
 public enum Category {
-	FUNITURE, MOBILE, KITCHEN
+	FURNITURE,CLOTHES,VEHICLE, MOBILE, KITCHEN,ELECTRONICS
 }

@@ -35,7 +35,7 @@ public class OrderHistory  {
 	private Product product;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="renter_id")
-	private User renterList;
+	private User renterList;// change the name here
 	@Column(name = "ordered_date")
 	private LocalDate orderedDate;
 	@Column(name = "transaction_id")
@@ -43,5 +43,5 @@ public class OrderHistory  {
 	@Column(name = "total_amount")
 	private Double amount;  //no. of days to rent * product price rent/ day
 	
-	
+
 }

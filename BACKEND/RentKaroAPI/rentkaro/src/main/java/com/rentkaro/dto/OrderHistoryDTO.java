@@ -22,21 +22,21 @@ public class OrderHistoryDTO {
 	private Long transactionId;
 	private Double amount; // no. of days to rent * product price rent/ day
 	
-	public OrderHistoryDTO(Long orderId, Product product, User renter, LocalDate orderedDate, Long transactionId, Double amount) {
-        this.orderId = orderId;
-        this.productId = product != null ? product.getProductId() : null;
-        this.renterId = renter != null ? renter.getId() : null;
-        this.orderedDate = orderedDate;
-        this.transactionId = transactionId;
-        this.amount = amount;
-    }
+//	public OrderHistoryDTO(Long orderId,Product productId, User rentId,LocalDate orderedDate,Long transactionId,Double amount) {
+//		this.orderId=orderId;
+//		this.productId=new Product();
+//		this.renterId=renterId;
+//		this.orderedDate=orderedDate;
+//		this.transactionId=transactionId;
+//		this.amount=amount;
+//	}
 	
-	public void setProductId(Long pId) {
-		this.productId=pId;
-	}
-	
-	public void setRenterId(Long rId) {
-		this.renterId=rId;
-	}
+//	public void setProductId(Long pId) {
+//		this.productId=pId;
+//	}
+//	
+//	public void setRenterId(Long rId) {
+//		this.renterId=rId;
+//	}
 	
 }

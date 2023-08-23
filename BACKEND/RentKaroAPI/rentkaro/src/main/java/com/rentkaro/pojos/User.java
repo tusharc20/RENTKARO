@@ -32,6 +32,8 @@ public class User extends UserEntity {
 	private String firstName;
 	@Column(name = "last_name", length = 50)
 	private String lastName;
+//	@Column(name = "img_path")
+//	private String imgPath;
 	@Column(name = "email_id", length = 50, unique = true)
 	private String userEmail;
 	@Column(name = "user_password", length = 50)
@@ -48,12 +50,10 @@ public class User extends UserEntity {
 	@OneToOne
 	@JoinColumn(name = "rented_product", nullable = true)
 	private Product rentedProduct;
-
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "cart")
 	private WishList cart;
 	@OneToMany(mappedBy = "renterList", cascade = CascadeType.ALL, orphanRemoval = true)
-//	@JoinColumn(name = "order_id")
 	private List<OrderHistory> orderList = new ArrayList<OrderHistory>();
 	@Column(name = "rental_date", nullable = true)
 	private LocalDate rentalDate;
@@ -70,11 +70,18 @@ public class User extends UserEntity {
 
 	public void removeProductFromOwnedProductList(Product persistentProduct) {
 		this.getOwnedProductList().remove(persistentProduct);
-		this.setRentedProduct(null);
 		persistentProduct.setOwner(null);
 		persistentProduct.setIsAvailable(false);
 		persistentProduct.setRating(null);
 		persistentProduct.setRenter(null);
 		persistentProduct.setWishList(null);
+	}
+
+	public void addOwnProduct(Product obj) {
+		this.ownedProductList.add(obj);
+	}
+
+	public void removeOwnProduct(int idx) {
+		this.ownedProductList.remove(idx);
 	}
 }
