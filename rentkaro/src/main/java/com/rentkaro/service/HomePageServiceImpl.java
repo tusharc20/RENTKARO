@@ -32,9 +32,17 @@ public class HomePageServiceImpl implements HomePageService {
      int i=0;
      for(Product p : allProductsList) {
     	 
+    	 String imageName=p.getImagePath();
+    	 
+    	 String fullImagePath="http://localhost:8080/products/serve/image/".concat(imageName);
+    	 
     	 allProductsDTOList.add(mapper.map(p, AllProductDTO.class));
+    	 
+    	 allProductsDTOList.get(i).setImagePath(fullImagePath);
+    	 
+    	 
     	// allProductsDTOList.get(i).setRating(p.getRating().getRating());
-    	// i++;
+    	 i++;
      }
 		
 		return allProductsDTOList;
